@@ -11,13 +11,14 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Slf4j
 public class JournalEntryService {
 
     @Autowired
-   private JournalEntryRepository journalEntryRepository;
+    private JournalEntryRepository journalEntryRepository;
     @Autowired
     private UserService userService;
 
@@ -46,21 +47,25 @@ public class JournalEntryService {
         return journalEntryRepository.findAll();
     }
 
-    public JournalEntry findById(ObjectId id) {
-        return journalEntryRepository.findById(id).get();
+    public Optional<JournalEntry> findById(ObjectId id) {
+        return journalEntryRepository.findById(id);
     }
 
-    public void deleteById(ObjectId id, String name) {
-        User user = userService.findByUsername(name);
 
-        if (user == null) {
-            log.error("User not found with username: {}", name);
-            throw new RuntimeException("User not found");
+    @Transactional
+    public boolean deleteById(ObjectId id, String userName) {
+        boolean removed = false;
+        try {
+            User user = userService.findByUsername(userName);
+             removed = user.getJournalEntries().removeIf(x -> x.getId().equals(id));
+            if (removed) {
+                userService.saveEntry(user);
+                journalEntryRepository.deleteById(id);
+            }
+        } catch (Exception ex) {
+            throw new RuntimeException("Error deleting JournalEntry",ex);
         }
-
-        user.getJournalEntries().removeIf(x -> x.getId().equals(id));
-        userService.saveEntry(user);
-        journalEntryRepository.deleteById(id);
+        return removed;
     }
 
     public JournalEntry updateById(JournalEntry journalEntry) {
