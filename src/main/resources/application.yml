@@ -1,0 +1,21 @@
+spring:
+  application:
+    name: journalApp
+  data:
+    mongodb:
+      host: cluster0.qfdiksu.mongodb.net
+      port: 27017
+      username: surya
+      password: surya@2004
+      database: journaldb
+      authentication-database: admin
+      auto-index-creation: true
+
+
+
+
+
+server:
+  port: 8081
+  servlet:
+    context-path: /journal
