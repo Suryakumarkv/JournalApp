@@ -1,6 +1,5 @@
 package com.surya.journalApp.Service;
 
-import com.surya.journalApp.Entity.JournalEntry;
 import com.surya.journalApp.Entity.User;
 import com.surya.journalApp.Repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -10,7 +9,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -30,10 +28,16 @@ public class UserService {
            return userRepository.save(user);
     }
 
-    public User saveNewUser(User user) {
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        user.setRoles(Arrays.asList("User"));
-        return userRepository.save(user);
+    public boolean saveNewUser(User user) {
+        try {
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
+            user.setRoles(Arrays.asList("User"));
+             userRepository.save(user);
+             return true;
+
+        }catch (Exception e){
+          return false;
+        }
     }
 
     public List<User> findAll() {
