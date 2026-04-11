@@ -33,6 +33,7 @@ public class UserDetailsServiceImplTests {
                 .roles(new ArrayList<>())
                 .build();
 
+        //Calling Mockito
         when(userRepository.findByUserName("ended"))
                 .thenReturn(mockUser);
 
