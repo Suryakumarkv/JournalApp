@@ -16,7 +16,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-public class UserDetailsServiceImplTests {
+class UserDetailsServiceImplTests {
 
     @InjectMocks
     private UserDetailsServiceImpl userDetailsServiceImpl;
