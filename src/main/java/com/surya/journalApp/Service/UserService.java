@@ -4,6 +4,8 @@ import com.surya.journalApp.Entity.User;
 import com.surya.journalApp.Repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -19,10 +21,7 @@ public class UserService {
 
     @Autowired
     UserRepository userRepository;
-
     public static final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-
-
 
     public User saveEntry(User user) {
            return userRepository.save(user);
@@ -36,8 +35,12 @@ public class UserService {
              return true;
 
         }catch (Exception e){
-          return false;
-        }
+            log.error("Error saving user: {}", user.getUserName(), e);
+            log.trace("Error saving user");
+            log.debug("Debug error saving user");
+            log.info("Info error saving user");
+            log.warn("Warn error saving user");
+          return false;        }
     }
 
     public List<User> findAll() {

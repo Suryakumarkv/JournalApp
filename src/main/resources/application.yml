@@ -11,11 +11,14 @@ spring:
       authentication-database: admin
       auto-index-creation: true
 
-
-
-
-
 server:
   port: 8080
   servlet:
     context-path: /journal
+
+
+logging:
+  level:
+    com:
+      surya:
+        journalApp: DEBUG
