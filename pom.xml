@@ -28,6 +28,8 @@
 	</scm>
 	<properties>
 		<java.version>21</java.version>
+		<sonar.organization>suryakumarkv</sonar.organization>
+
 	</properties>
     <dependencies>
         <dependency>
@@ -75,6 +77,8 @@
 			<version>5.23.0</version>
 			<scope>compile</scope>
 		</dependency>
+
+
 
 		<!-- Swagger Open Api-->
 		<dependency>
