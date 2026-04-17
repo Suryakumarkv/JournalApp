@@ -30,4 +30,7 @@ public class User {
     private List<JournalEntry> journalEntries = new ArrayList<>();
 
     private List<String> roles;
+
+    public void setRole(String roleAdmin) {
+    }
 }

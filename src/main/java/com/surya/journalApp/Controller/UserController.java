@@ -3,17 +3,14 @@ package com.surya.journalApp.Controller;
 import com.surya.journalApp.Entity.User;
 import com.surya.journalApp.Repository.UserRepository;
 import com.surya.journalApp.Service.UserService;
-import org.bson.types.ObjectId;
+import com.surya.journalApp.Service.WeatherService;
+import com.surya.journalApp.api.response.WeatherResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/user")
@@ -24,6 +21,9 @@ public class UserController {
 
     @Autowired
     UserRepository userRepository;
+
+    @Autowired
+    private WeatherService weatherService;
 
 
     @PutMapping
@@ -47,8 +47,20 @@ public class UserController {
     public ResponseEntity<?> deleteById() {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        userRepository.deleteByUserName(authentication.getName());
+        userRepository.deleteByUserName(authentication.getName(), HttpStatus.OK);
 
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @GetMapping
+    public ResponseEntity<?> greeting() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String greeting ="";
+        WeatherResponse weatherResponse= weatherService.getWeather("Mumbai");
+        if(weatherResponse!=null){
+            greeting = ", weather feels like " + weatherResponse.getCurrent().getFeelslike();
+        }
+
+        return new ResponseEntity<>("Hi " + authentication.getName() + greeting , HttpStatus.OK);
     }
 }
