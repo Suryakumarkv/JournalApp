@@ -29,7 +29,6 @@ public class JournalEntryControllerV2 {
     @Autowired
     private UserService userService;
 
-
     @GetMapping
     public ResponseEntity<?> getAllJournalEntriesOfUser() {
         Authentication authentication =  SecurityContextHolder.getContext().getAuthentication();
@@ -59,6 +58,10 @@ public class JournalEntryControllerV2 {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
+    }
+    @GetMapping("/ping")
+    public String ping() {
+        return "OK";
     }
 
     @GetMapping("/id/{id}")
@@ -114,8 +117,4 @@ public class JournalEntryControllerV2 {
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
-
-
-
-
 }
