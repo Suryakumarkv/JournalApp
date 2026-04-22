@@ -20,7 +20,7 @@ public class AppCache {
 
     @PostConstruct
     public void init() {
-        APP_CACHE= new HashMap<>();
+        APP_CACHE = new HashMap<>();
         List<ConfigJournalAppEntity> all = configJournalAppRepository.findAll();
 
         for (ConfigJournalAppEntity configJournalAppEntity : all) {
